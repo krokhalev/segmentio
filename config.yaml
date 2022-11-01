@@ -1,0 +1,16 @@
+application:
+  host: "localhost"
+  port: "9992"
+  secure: true
+  skip_verify: true
+  topic: "segmentio_topic"
+  auto_create_topic: false
+  forwarder:
+    produce_messages: false
+    messages_count: 5
+  getter:
+    consume_messages: true
+    group_id: "consumer_group_id"
+    commit_messages: false
+
+log_level: "info"
