@@ -27,7 +27,7 @@ func ProduceMessages(ctx context.Context, address, topic string, secure, skipVer
 		RequiredAcks: kafka.RequireAll,
 	}
 
-	for i := 0; i <= messagesCount; i++ {
+	for i := 1; i <= messagesCount; i++ {
 		message := kafka.Message{
 			Value: []byte(fmt.Sprintf("message %v", i)),
 			//Topic: topic, // send message to specific topic

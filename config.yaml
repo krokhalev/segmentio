@@ -1,4 +1,4 @@
-application:
+segmentio:
   host: "localhost"
   port: "9992"
   secure: true
@@ -7,10 +7,10 @@ application:
   auto_create_topic: false
   forwarder:
     produce_messages: false
-    messages_count: 5
+    messages_count: 1
   getter:
     consume_messages: true
     group_id: "consumer_group_id"
-    commit_messages: false
+    commit_messages: true
 
 log_level: "info"

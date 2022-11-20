@@ -52,26 +52,26 @@ func main() {
 		)
 	}
 
-	if config.Segmentio.Producer.ProduceMessages {
+	if config.Segmentio.Forwarder.ProduceMessages {
 		forwarder.ProduceMessages(
 			ctx,
 			config.Segmentio.Host+":"+config.Segmentio.Port,
 			config.Segmentio.Topic,
 			config.Segmentio.Secure,
 			config.Segmentio.SkipVerify,
-			config.Segmentio.Producer.MessagesCount,
+			config.Segmentio.Forwarder.MessagesCount,
 		)
 	}
 
-	if config.Segmentio.Consumer.ConsumeMessages {
+	if config.Segmentio.Getter.ConsumeMessages {
 		getter.ConsumeAndCommit(
 			ctx,
 			config.Segmentio.Host+":"+config.Segmentio.Port,
 			config.Segmentio.Topic,
 			config.Segmentio.Secure,
 			config.Segmentio.SkipVerify,
-			config.Segmentio.Consumer.GroupID,
-			config.Segmentio.Consumer.CommitMessages,
+			config.Segmentio.Getter.GroupID,
+			config.Segmentio.Getter.CommitMessages,
 		)
 	}
 }

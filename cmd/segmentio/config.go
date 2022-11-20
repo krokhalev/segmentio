@@ -6,22 +6,22 @@ type Config struct {
 }
 
 type SegmentioConfig struct {
-	Host            string         `mapstructure:"host"`
-	Port            string         `mapstructure:"port"`
-	Secure          bool           `mapstructure:"secure"`
-	SkipVerify      bool           `mapstructure:"skip_verify"`
-	Topic           string         `mapstructure:"topic"`
-	AutoCreateTopic bool           `mapstructure:"auto_create_topic"`
-	Producer        ProducerConfig `mapstructure:"producer"`
-	Consumer        ConsumerConfig `mapstructure:"consumer"`
+	Host            string          `mapstructure:"host"`
+	Port            string          `mapstructure:"port"`
+	Secure          bool            `mapstructure:"secure"`
+	SkipVerify      bool            `mapstructure:"skip_verify"`
+	Topic           string          `mapstructure:"topic"`
+	AutoCreateTopic bool            `mapstructure:"auto_create_topic"`
+	Forwarder       ForwarderConfig `mapstructure:"forwarder"`
+	Getter          GetterConfig    `mapstructure:"getter"`
 }
 
-type ProducerConfig struct {
+type ForwarderConfig struct {
 	ProduceMessages bool `mapstructure:"produce_messages"`
 	MessagesCount   int  `mapstructure:"messages_count"`
 }
 
-type ConsumerConfig struct {
+type GetterConfig struct {
 	ConsumeMessages bool   `mapstructure:"consume_messages"`
 	GroupID         string `mapstructure:"group_id"`
 	CommitMessages  bool   `mapstructure:"commit_messages"`
