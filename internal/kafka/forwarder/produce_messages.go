@@ -1,11 +1,13 @@
 package forwarder
 
 import (
+	"bufio"
 	"context"
 	"crypto/tls"
 	"fmt"
 	"github.com/rs/zerolog/log"
 	"github.com/segmentio/kafka-go"
+	"os"
 )
 
 func ProduceMessages(ctx context.Context, address, topic string, secure, skipVerify bool, messagesCount int) {
@@ -27,9 +29,30 @@ func ProduceMessages(ctx context.Context, address, topic string, secure, skipVer
 		RequiredAcks: kafka.RequireAll,
 	}
 
-	for i := 1; i <= messagesCount; i++ {
+	file, err := os.Open("messages.txt")
+	if err != nil {
+		log.Ctx(ctx).Error().Err(err).Msg("open file with messages error")
+	}
+	defer file.Close()
+
+	fscanner := bufio.NewScanner(file)
+	var messages []string
+	for fscanner.Scan() {
+		messages = append(messages, fscanner.Text())
+	}
+
+	lenMsgs := len(messages)
+	i := 0
+	counter := 0
+	for {
+		if counter == messagesCount {
+			break
+		}
+		if i == lenMsgs {
+			i = 0
+		}
 		message := kafka.Message{
-			Value: []byte(fmt.Sprintf("message %v", i)),
+			Value: []byte(messages[i]),
 			//Topic: topic, // send message to specific topic
 		}
 		err := writer.WriteMessages(ctx, message)
@@ -38,6 +61,8 @@ func ProduceMessages(ctx context.Context, address, topic string, secure, skipVer
 		} else {
 			log.Ctx(ctx).Info().Str("info", fmt.Sprintf("successful write message: %v", i)).Msg("successful write")
 		}
+		i++
+		counter++
 	}
 
 	// send batch
